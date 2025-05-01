@@ -8,7 +8,6 @@ import org.example.expert.domain.manager.dto.request.ManagerSaveRequest;
 import org.example.expert.domain.manager.dto.response.ManagerResponse;
 import org.example.expert.domain.manager.dto.response.ManagerSaveResponse;
 import org.example.expert.domain.manager.entity.Manager;
-import org.example.expert.domain.manager.entity.ManagerLog;
 import org.example.expert.domain.manager.repository.ManagerRepository;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;

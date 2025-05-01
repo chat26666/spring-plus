@@ -31,6 +31,7 @@ public class S3Service {
 
 	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
+	//기능만 구현되어있고 상세한 예외처리 및 체크해야할 부분이 구현되어있지 않습니닷!
 	public String uploadFile(MultipartFile file) {
 		String key = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
