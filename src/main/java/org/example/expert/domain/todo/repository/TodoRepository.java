@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 
-public interface TodoRepository extends JpaRepository<Todo, Long> , TodoRepositoryCustomDsl {
+public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustomDsl {
 
 	@Query("""
 		SELECT t FROM Todo t
