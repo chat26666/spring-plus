@@ -1,5 +1,7 @@
 package org.example.expert.domain.user.service;
 
+import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import org.example.expert.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
@@ -7,8 +9,10 @@ import org.example.expert.domain.user.dto.request.UserChangePasswordRequest;
 import org.example.expert.domain.user.dto.response.UserResponse;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.repository.UserRepository;
+import org.example.expert.s3.service.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3Service s3Service;
 
     public UserResponse getUser(long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
@@ -39,6 +44,21 @@ public class UserService {
         }
 
         user.changePassword(passwordEncoder.encode(userChangePasswordRequest.getNewPassword()));
+    }
+
+    @Transactional
+    public void updateProfile(long userId, MultipartFile file) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
+        String key = s3Service.uploadFile(file);
+        user.updateProfile(key);
+    }
+
+    @Transactional
+    public Map<String, String> getProfile(long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new InvalidRequestException("User not found"));
+        String key = s3Service.generateSignedUrl(user.getImgUrl());
+
+        return Map.of("url",key);
     }
 
     private static void validateNewPassword(UserChangePasswordRequest userChangePasswordRequest) {

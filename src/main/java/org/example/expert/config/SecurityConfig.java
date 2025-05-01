@@ -32,6 +32,7 @@ public class SecurityConfig {
 				sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
 			.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/actuator/**").permitAll()
 				.requestMatchers(
 					"/auth/signup",
 					"/auth/signin"

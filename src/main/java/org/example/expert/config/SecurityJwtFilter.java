@@ -39,7 +39,7 @@ public class SecurityJwtFilter extends OncePerRequestFilter {
 
 		String url = httpRequest.getRequestURI();
 
-		if (url.startsWith("/auth")) {
+		if (url.startsWith("/auth") || url.startsWith("/actuator")) {
 			chain.doFilter(httpRequest, httpResponse);
 			return;
 		}
